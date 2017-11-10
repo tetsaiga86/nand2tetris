@@ -1,0 +1,25 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/09/HelloWorld/Main.jack
+
+/** Hello World program. */
+class Main {
+   function void main() {
+      var String name;
+      var int i;
+      let i = 1;
+      while(i<7){
+        do Output.printInt(Maths.random(i));
+        do Output.println();      // New line
+        let i = i+1;
+      }
+      /* Prints some text using the standard library. */
+      let name = Keyboard.readLine("Your name? ");
+      do Output.printString("Hello ");
+      do Output.printString(name);
+      do Output.printString("!");
+      do Output.println();      // New line
+      return;
+   }
+}

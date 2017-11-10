@@ -1,0 +1,17 @@
+class Maths{
+  function int random(int previousNum){
+    var int num;
+    let num = Maths.mod((7*previousNum),11);
+    while (num > 6) {
+      let num = Maths.random(num);
+    }
+    return num;
+  }
+
+  function int mod(int x, int y){
+    var int a,b;
+    let a = x/y;
+    let b = a*y;
+    return x-b;
+  }
+}

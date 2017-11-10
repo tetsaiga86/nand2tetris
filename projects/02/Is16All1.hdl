@@ -1,0 +1,13 @@
+CHIP Is16All1{
+  IN a[16];
+  OUT out;
+
+  PARTS:
+  And(a=a[0], b=a[1], out=out1);
+  And(a=a[2], b=a[3], out=out2);
+  And(a=a[4], b=a[5], out=out3);
+  And(a=a[6], b=a[7], out=out4);
+  And(a=out1, b=out2, out=out12);
+  And(a=out3, b=out4, out=out34);
+  And(a=out12, b=out34, out=out);
+}

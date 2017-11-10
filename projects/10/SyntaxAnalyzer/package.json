@@ -1,0 +1,15 @@
+{
+  "name": "syntaxanalyzer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "analyzer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "escape-string-regexp": "^1.0.5",
+    "import-export": "^1.0.1"
+  }
+}

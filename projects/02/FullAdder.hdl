@@ -1,0 +1,55 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/02/FullAdder.hdl
+
+/**
+ * Computes the sum of three bits.
+ */
+
+CHIP FullAdder {
+    IN a, b, c;  // 1-bit inputs
+    OUT sum,     // Right bit of a + b + c
+        carry;   // Left bit of a + b + c
+
+    PARTS:
+    // Put you code here:
+    Not(in=a, out=notA);
+    Not(in=b, out=notB);
+    Not(in=c, out=notC);
+
+    // Sum
+    // 1
+  //  And(a=notA, b=notB, out=notAandnotB);
+  //  And(a=notAandnotB, b=c, out=notAandnotBandC);
+    // 2
+  //  And(a=notA, b=b, out=notAandB);
+  //  And(a=notAandB, b=notC, out=notAandBandnotC);
+    // 3
+  //  And(a=a, b=notB, out=AandnotB);
+  //  And(a=AandnotB, b=notC, out=AandnotBandnotC);
+    // 4
+  //  And(a=a, b=b, out=AandB);
+  //  And(a=AandB, b=c, out=AandBandC);
+    // Or them all together
+  //  Or(a=notAandnotBandC, b=notAandBandnotC, out=firstTwo);
+  //  Or(a=AandnotBandnotC, b=AandBandC, out=secondTwo);
+  //  Or(a=firstTwo, b=secondTwo, out=sum);
+
+    // Carry
+    // 1
+  //  And(a=notAandB, b=c, out=notAandBandC);
+    // 2
+  //  And(a=AandnotB, b=c, out=AandnotBandC);
+    // 3
+  //  And(a=AandB, b=notC, out=AandBandnotC);
+    // 4 is AandBandC
+    // Or them all together
+  //  Or(a=notAandBandC, b=AandnotBandC, out=firstTwoCarry);
+  //  Or(a=AandBandnotC, b=AandBandC, out=secondTwoCarry);
+  //  Or(a=firstTwoCarry, b=secondTwoCarry, out=carry);
+
+    HalfAdder(a=a, b=b, sum=sumab, carry=carryab);
+    HalfAdder(a=sumab, b=c, sum=sum, carry=carryabc);
+    Or(a=carryab, b=carryabc, out=carry);
+}

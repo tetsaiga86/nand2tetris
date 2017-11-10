@@ -1,0 +1,14 @@
+{
+  "name": "vmtranslator",
+  "version": "1.0.0",
+  "description": "translate vm to asm",
+  "main": "VmTranslator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "import-export": "^1.0.1"
+  }
+}
