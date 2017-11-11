@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "escape-string-regexp": "^1.0.5",
-    "import-export": "^1.0.1"
+    "import-export": "^1.0.1",
+    "xml-parse": "^0.3.1"
   }
 }

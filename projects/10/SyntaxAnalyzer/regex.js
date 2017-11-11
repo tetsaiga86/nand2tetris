@@ -9,7 +9,7 @@ export default function makeRegex(arr){
 }
 
 // export default function makeRegex(arr){
-//   var regexPattern = new RegExp(`^${arr[0]}$`);
+//   var regexPattern = new RegExp(`^${arr[0].source}$`);
 //
 //   for(var i = 1; i < arr.length; i++) {
 //     const val = arr[i];
