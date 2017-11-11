@@ -113,7 +113,7 @@
 <keyword> do </keyword>
 <identifier> Output </identifier>
 <symbol> . </symbol>
-<keyword> printString </keyword>
+<identifier> printString </identifier>
 <symbol> ( </symbol>
 <stringConstant> THE AVERAGE IS:  </stringConstant>
 <symbol> ) </symbol>
@@ -121,7 +121,7 @@
 <keyword> do </keyword>
 <identifier> Output </identifier>
 <symbol> . </symbol>
-<keyword> printInt </keyword>
+<identifier> printInt </identifier>
 <symbol> ( </symbol>
 <identifier> sum </identifier>
 <symbol> / </symbol>
@@ -131,7 +131,7 @@
 <keyword> do </keyword>
 <identifier> Output </identifier>
 <symbol> . </symbol>
-<keyword> println </keyword>
+<identifier> println </identifier>
 <symbol> ( </symbol>
 <symbol> ) </symbol>
 <symbol> ; </symbol>

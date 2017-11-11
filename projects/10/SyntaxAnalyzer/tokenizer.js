@@ -11,8 +11,9 @@ const keywords = ['class', 'constructor', 'function', 'method', 'field',
 const symbol = ['{', '}', '(', ')', '[', ']', '.', ',', ';', '+', '-',
   '*', '/', '&', '|', '<', '>', '=', '~'];
 
-// console.log(makeRegex(keywords));
-var keywordsRegex = makeRegex(keywords.map((keyword) => new RegExp(keyword)));
+// FIXME: need strict strings on keywords!
+// var keywordsRegex = makeRegex(keywords.map((keyword) => new RegExp(keyword)));
+var keywordsRegex = /^class$|^constructor$|^function$|^method$|^field$|^static$|^var$|^int$|^char$|^boolean$|^void$|^true$|^false$|^null$|^this$|^let$|^do$|^if$|^else$|^while$|^return$/g
 var symbolsRegex = makeRegex(symbol.map(escapeStringRegexp).map((escapedSymbol) => new RegExp(escapedSymbol)));
 var intConstantRegex = /[0-9]+/;
 var stringConstantRegex = /".*"/;
@@ -83,6 +84,7 @@ function getJackFiles(dir){
 function tokenizeFile(file){
   var code = read(file),
       tokenString = '<tokens>\n';
+  // console.log(code);
   code.forEach((line) => {
     var lineTokens = line.match(tokenizerRegex);
     // console.log(lineTokens);
