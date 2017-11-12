@@ -8,7 +8,7 @@ var currentToken,
     tokenType,
     tokenText,
     outputString = '';
-var operators = ['+', '-', '*', '/', '&amp', '|', '&lt;', '&gt;', '='];
+var operators = ['+', '-', '*', '/', '&amp;', '|', '&lt;', '&gt;', '='];
 
 function isOp(string){
   if (operators.indexOf(string)>=0) {
@@ -36,7 +36,8 @@ function requireSymbol(symbol){
   if (tokenType == 'symbol' && tokenText == symbol) {
     outputString = outputString.concat(`<symbol>${symbol}</symbol>\n`)
   }else {
-    console.log(outputString.split('\n').length, outputString);
+    console.error(outputString);
+    console.error('tokenNumber', currentTokenIdx);
     throw new Error(`tokenType = ${tokenType} and should = symbol, tokenText = ${tokenText} and should = ${symbol}`);
   }
 }
