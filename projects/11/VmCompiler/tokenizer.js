@@ -1,0 +1,88 @@
+import fs from 'fs';
+import read from './read.js';
+import makeRegex from './regex.js';
+const escapeStringRegexp = require('escape-string-regexp');
+
+const keywords = ['class', 'constructor', 'function', 'method', 'field',
+  'static', 'var', 'int', 'char', 'boolean', 'void', 'true', 'false',
+  'null', 'this', 'let', 'do', 'if', 'else', 'while', 'return'];
+
+const symbol = ['{', '}', '(', ')', '[', ']', '.', ',', ';', '+', '-',
+  '*', '/', '&', '|', '<', '>', '=', '~'];
+
+// FIXME: need strict strings on keywords!
+// var keywordsRegex = makeRegex(keywords.map((keyword) => new RegExp(keyword)));
+var keywordsRegex = /^class$|^constructor$|^function$|^method$|^field$|^static$|^var$|^int$|^char$|^boolean$|^void$|^true$|^false$|^null$|^this$|^let$|^do$|^if$|^else$|^while$|^return$/g
+var symbolsRegex = makeRegex(symbol.map(escapeStringRegexp).map((escapedSymbol) => new RegExp(escapedSymbol)));
+var intConstantRegex = /[0-9]+/;
+var stringConstantRegex = /".*"/;
+var identifierRegex = /[a-zA-Z_][0-9a-zA-Z_]*/;
+var tokenizerRegex = makeRegex([keywordsRegex, symbolsRegex, intConstantRegex, stringConstantRegex, identifierRegex]);
+
+String.prototype.isMatch = function(s){
+   return this.match(s)!==null
+}
+
+function makeTokenString(arr){
+  var tokenString = '';
+  arr.forEach((item) => {
+    switch (true) {
+      case item.isMatch(keywordsRegex):
+        tokenString = tokenString.concat(convertKeywordToXml(item)+'\n');
+        break;
+      case item.isMatch(symbolsRegex):
+        tokenString = tokenString.concat(convertSymbolToXml(item)+'\n');
+        break;
+      case item.isMatch(intConstantRegex):
+        tokenString = tokenString.concat(`<integerConstant> ${item} </integerConstant>\n`);
+        break;
+      case item.isMatch(stringConstantRegex):
+        tokenString = tokenString.concat(`<stringConstant> ${item.replace(/"/g, '')} </stringConstant>\n`);
+        break;
+      case item.isMatch(identifierRegex):
+        tokenString = tokenString.concat(`<identifier> ${item} </identifier>\n`);
+        break;
+    }
+  })
+  return tokenString;
+}
+
+function convertKeywordToXml(keyword) {
+  return `<keyword> ${keyword} </keyword>`;
+}
+
+function convertSymbolToXml(symbol){
+  switch (symbol) {
+    case '<':
+      return `<symbol> &lt; </symbol>`
+      break;
+    case '>':
+      return `<symbol> &gt; </symbol>`
+      break;
+    case '"':
+      return `<symbol> &quot; </symbol>`
+      break;
+    case '&':
+      return `<symbol> &amp; </symbol>`
+      break;
+    default:
+      return `<symbol> ${symbol} </symbol>`
+  }
+}
+
+function tokenizeFile(file){
+  var code = read(file),
+      tokenString = '<tokens>\n';
+  // console.log(code);
+  code.forEach((line) => {
+    var lineTokens = line.match(tokenizerRegex);
+    // console.log(lineTokens);
+    tokenString = tokenString.concat(makeTokenString(lineTokens))
+  })
+  tokenString = tokenString.concat('</tokens>\n');
+  return tokenString;
+}
+
+export default function tokenize(name){
+  return tokenizeFile(name).split('\n');
+}
