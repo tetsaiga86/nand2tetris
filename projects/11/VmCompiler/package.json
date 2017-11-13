@@ -1,0 +1,14 @@
+{
+  "name": "vmcompiler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "compile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "import-export": "^1.0.1"
+  }
+}
