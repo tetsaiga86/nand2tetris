@@ -1,11 +1,15 @@
 import read from './read.js';
 import xml from 'xml-parse';
-// import write from './write.js';
+import SymbolTable from './symbolTable.js';
+
 var tokens = [];
 var currentToken,
     currentTokenIdx,
     tokenType,
     tokenText,
+    classSymbolTable,
+    type,
+    kind,
     outputString;
 var operators = ['+', '-', '*', '/', '&amp;', '|', '&lt;', '&gt;', '='];
 
@@ -46,11 +50,13 @@ function compileType(){
   var isType = false;
 
   if(tokenType == 'keyword' && (tokenText == 'int' || tokenText == 'char' || tokenText == 'boolean')) {
+    type = tokenText;
     outputString = outputString.concat(`<keyword>${tokenText}</keyword>\n`);
     isType = true;
   }
 
   if(tokenType == 'identifier'){
+    type = tokenText;
     outputString = outputString.concat(`<identifier>${tokenText}</identifier>\n`);
     isType = true;
   }
@@ -592,6 +598,7 @@ function compileClassVarDec(){
   if (tokenText != 'static' && tokenText != 'field') {
     throw new Error('static or field');
   }
+  kind = tokenText;
   outputString = outputString.concat(`<keyword>${tokenText}</keyword>\n`)
 
   //type
@@ -605,6 +612,7 @@ function compileClassVarDec(){
     if (tokenType != 'identifier') {
       throw new Error('identifier');
     }
+    classSymbolTable.define(tokenText, type, kind);
     outputString = outputString.concat(`<identifier>${tokenText}</identifier>\n`);
 
     // , or ;
@@ -631,6 +639,10 @@ function compileClass(){
   if (tokenType != 'keyword' || tokenText != 'class') {
     throw new Error('class');
   }
+
+  //create class SymbolTable
+  classSymbolTable = new SymbolTable();
+
   outputString = outputString.concat('<class>\n<keyword>class</keyword>\n')
 
   //className
@@ -664,5 +676,6 @@ export default function compile(inputTokens){
   outputString = '';
   currentTokenIdx = 0;
   compileClass();
+  console.log('classSymbolTable', classSymbolTable);
   return outputString;
 }
