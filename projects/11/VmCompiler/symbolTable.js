@@ -1,7 +1,8 @@
 
 export default class SymbolTable{
   constructor() {
-    this.table = {};
+    this.classSymbols = {};
+    this.subroutineSymbols = {};
     this.count = {
       'static':0,
       'field':0,
@@ -10,9 +11,11 @@ export default class SymbolTable{
     };
   }
 
-  // startSubroutine() {
-  //   this.subTable = {};
-  // }
+  startSubroutine() {
+    this.subroutineSymbols = {};
+    this.count.var = 0;
+    this.count.arg = 0;
+  }
 
   define(name, type, kind){
     const row = {
@@ -22,7 +25,12 @@ export default class SymbolTable{
       index: this.varCount(kind)
     };
     this.count[kind] += 1;
-    this.table[name] = row;
+
+    if (kind == 'static' || kind == 'field') {
+      this.classSymbols[name] = row;
+    } else {
+      this.subroutineSymbols[name] = row;
+    }
   }
 
   varCount(kind){
@@ -30,19 +38,31 @@ export default class SymbolTable{
   }
 
   kindOf(name){
-    if(!this.table[name]) return 'NONE';
-    return this.table[name].kind;
+    if(!this.classSymbols[name] && !this.subroutineSymbols[name]) return 'NONE';
+    if (this.subroutineSymbols[name]) {
+      return this.subroutineSymbols[name].kind;
+    }else return this.classSymbols[name].kind;
   }
 
   typeOf(name){
-    return this.table[name].type;
+    var symbol = this.lookup(name);
+    if(symbol) return symbol.kind;
+    return '';
   }
 
   indexOf(name){
-    return this.table[name].index;
+    var symbol = this.lookup(name);
+    if(symbol) return symbol.index;
+    return -1;
+  }
+
+  lookup(name){
+    if(this.classSymbols[name]){
+      return this.classSymbols[name]
+    }else if (this.subroutineSymbols[name]) {
+      return this.subroutineSymbols[name]
+    }else {
+      return null;
+    }
   }
 }
-
-
-
-// consuming file:

@@ -17,7 +17,7 @@ var dir = '../Pong',
 
 jackFiles.forEach((fileName) => {
   var inputLocation = `${dir}/${fileName}`;
-  var outputLocation = `${dir}/${fileName.replace('.jack', '.xml')}`;
+  var outputLocation = `${dir}/${fileName.replace('.jack', '.vm')}`;
   var outputString = compile(tokenize(inputLocation));
-  // write(outputLocation, outputString);
+  write(outputLocation, outputString);
 })
